@@ -1,0 +1,157 @@
+.register {
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    box-sizing: border-box;
+    background-color: #202020;
+}
+
+.register__section {
+    display: flex;
+    flex-direction: column;
+}
+
+.register__logo {    
+    width: 38px;
+    height: 38px;
+}
+
+.register__form {
+    margin: 40px 0 0 0;
+    width: 396px;
+    display: flex;
+    flex-direction: column;
+}
+
+.register__title {
+    margin: 0 0 20px 0;
+    font-family: 'Inter', 'Arial', sans-serif;
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 29px;
+    color: #fff;
+}
+
+.register__input-name {
+    margin: 20px 0 0 0;
+    font-family: 'Inter', 'Arial', sans-serif;
+    font-size: 10px;
+    font-weight: 400;
+    line-height: 12px;
+    color: #8B8B8B;
+}
+
+.register__submit-button {
+    margin: 70px 0 0 0;
+    width: 100%;
+    height: 45px;
+    border-radius: 3px;
+    background-color: #4285F4;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-family: 'Inter', 'Arial', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 17px;
+    color: #fff;
+}
+
+.register__submit-button:hover {
+    opacity: 0.8;
+    transition: ease .3s;
+}
+
+.register__task {
+    margin: 16px 0 0 0;
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+}
+
+.register__task-text {
+    margin: 0;
+    font-family: 'Inter', 'Arial', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 17px;
+    color: #8B8B8B;
+}
+
+.register__signin-link {
+    font-family: 'Inter', 'Arial', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 17px;
+    text-decoration: none;
+    color: #4285F4;
+}
+
+.register__signin-link:hover {
+    opacity: 0.7;
+    transition: ease .3s;
+}
+
+@media screen and (max-width: 1279px) {
+    .register__submit-button {
+        margin: 150px 0 0 0;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .register {
+        padding: 56px 30px 30px 30px;
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .register__section {
+        align-items: center;
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .register__form {
+        margin: 50px 0 0 0;
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .register__title {
+        margin: 0 0 60px 0;
+        text-align: center;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .register__submit-button {
+        margin: 240px 0 0 0;
+        font-size: 12px;
+        line-height: 14px;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .register__task {
+        margin: 14px 0 0 0;
+        gap: 7px;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .register__task-text {
+        font-size: 12px;
+        line-height: 14px;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .register__signin-link {
+        font-size: 12px;
+        line-height: 14px;
+    }
+}

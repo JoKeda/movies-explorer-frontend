@@ -1,0 +1,229 @@
+.about-project {
+    display: flex;
+    flex-direction: column;
+    padding: 110px 70px 105px 70px;
+    background-color: #202020;
+}
+
+.about-project__title {
+    margin: 0;
+    padding: 0 0 23px 0;
+    border-bottom: 1px solid rgba(218, 218, 218, 1);
+    font-family: 'Inter', 'Arial', sans-serif;
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 27px;
+    color: #fff;
+    letter-spacing: -0.04em;
+}
+
+.about-project__two-columns {
+    margin: 70px -12px 0 0;
+    display: flex;
+    gap: 40px;
+}
+
+.about-project__content {
+    display: flex;
+    flex-direction: column;
+}
+
+.aabout-project__content-stage {
+    margin: 0;
+    font-family: 'Inter', 'Arial', sans-serif;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 24px;
+    color: #fff;
+    letter-spacing: -0.04em;
+}
+
+.about-project__content-description {
+    margin: 26px 0 0 0;
+    font-family: 'Inter', 'Arial', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    color: #fff;
+}
+
+.about-project__time-container {
+    display: flex;
+}
+
+.about-project__time-container_type_first {
+    margin: 110px 0 0 0;
+}
+
+.about-project__time {
+    height: 36px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.about-project__time_type_backend {
+    width: 20%;
+    background-color: #3DDC84;
+}
+
+.about-project__time_type_backend-description {
+    width: 20%;
+}
+
+.about-project__time_type_frontend {
+    width: 80%;
+    background-color: #303030;
+}
+
+.about-project__time_type_frontend-description {
+    width: 80%;
+}
+
+.about-project__time-text {
+    margin: 0;
+    font-family: 'Inter', 'Arial', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 17px;
+    color: #fff;
+}
+
+.about-project__time-text_type_black {
+    color: #000;
+}
+
+.about-project__time-text_type_white {
+    color: #fff;
+}
+
+.about-project__time-text_type_grey {
+    color: #8B8B8B;
+}
+
+@media screen and (max-width: 1279px) {
+    .about-project {
+        padding: 88px 50px 85px 50px;
+    }
+}
+
+@media screen and (max-width: 1279px) {
+    .about-project__two-columns {
+        gap: 30px;
+    }
+}
+
+@media screen and (max-width: 1279px) {
+    .about-project__content-description {
+        margin: 22px 0 0 0;
+        font-size: 12px;
+        line-height: 18px;
+    }
+}
+
+@media screen and (max-width: 1279px) {
+    .about-project__time-container_type_first {
+        margin: 91px 0 0 0;
+    }
+}
+
+@media screen and (max-width: 1279px) {
+    .about-project__time-container_type_one {
+        margin: 93px 0 0 0;
+    }
+}
+
+@media screen and (max-width: 1279px) {
+    .about-project__time_type_backend {
+        width: 21%;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .about-project {
+        padding: 70px 18px 90px 18px;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .about-project__title {
+        padding: 0 0 28px 0;
+        font-size: 18px;
+        line-height: 22px;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .about-project__two-columns {
+        margin: 60px 0 0 0;
+        flex-direction: column;
+        gap: 56px;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .aabout-project__content-stage {
+        font-size: 18px;
+        line-height: 22px;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .about-project__content-description {
+        margin: 16px 0 0 0;
+        font-size: 11px;
+        line-height: 16px;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .about-project__time-container_type_one {
+        margin: 60px 0 0 0;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .about-project__time {
+        height: 35px;
+        margin-top: -30px;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .about-project__time_type_backend {
+        width: 35%;
+        background-color: #3DDC84;
+    } 
+}
+
+@media screen and (max-width: 767px) {
+    .about-project__time_type_backend-description {
+        width: 35%;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .about-project__time_type_frontend {
+        width: 65%;
+        background-color: #303030;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .about-project__time_type_frontend-description {
+        width: 65%;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .about-project__time-text {
+        font-size: 11px;
+        line-height: 13px;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .about-project__time-text_type_height {
+        padding-top: 60px;
+    }
+}
