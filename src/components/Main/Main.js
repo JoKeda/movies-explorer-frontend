@@ -7,8 +7,11 @@ import AboutMe from '../AboutMe/AboutMe';
 import Portfolio from '../Portfolio/Portfolio';
 
 import './Main.css';
+import {useHistory} from "react-router-dom";
 
-function Main() {
+function Main({isAuth}) {
+    const history = useHistory();
+    if(isAuth) history.push('/movies')
     return (
         <div className="main">
             <Promo />

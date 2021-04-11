@@ -1,4 +1,4 @@
-/* .movies-card {
+.movies-card {
     margin: auto;
     box-sizing: border-box;
     position: relative;
@@ -8,7 +8,7 @@
     box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.08);
     border-radius: 6px;
     cursor: pointer;
-} */
+}
 
 .movies-card__delete-button {
     padding-top: 2px;
@@ -71,28 +71,6 @@
 
 .btn {
     background-color: transparent;
-}
-
-.movies-card-list__block-more-movies {
-    margin: 60px 0 0 0;
-    height: 36px;
-    border-radius: 6px;
-    background-color: #202020;
-    border: 1px solid #424242;
-    outline: none;
-    cursor: pointer;
-    font-family: 'Inter', 'Arial', sans-serif;
-    font-size: 12px;
-    font-weight: 500;
-    line-height: 15px;
-    color: #fff;
-    width: 320px;
-}
-
-.movies-card-list__block-more {
-    width: 100%;
-    display: flex;
-    justify-content: center;
 }
 
 @media screen and (max-width: 1279px) {

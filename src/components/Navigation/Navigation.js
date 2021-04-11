@@ -6,7 +6,7 @@ import './Navigation.css';
 function Navigation(props) {
     const {isOpen, onClose} = props;
 
-    function handleClickLayoutMenuClose(e) {
+function handleClickLayoutMenuClose(e) {
         if (e.target === e.currentTarget) {
             onClose();
         }

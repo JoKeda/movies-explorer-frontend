@@ -37,6 +37,19 @@
     transition: ease .3s;
 }
 
+.message {
+    text-align: center;
+    width: 100%;
+    position: absolute;
+    top: 80%;
+   left: 0%;
+
+}
+
+.error {
+    text-align:  center;
+}
+
 @media screen and (max-width: 1279px) {
     .movies-card-list__content {
         grid-template-columns: repeat(2, 1fr);

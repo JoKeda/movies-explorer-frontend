@@ -7,7 +7,7 @@ import Navigation from '../Navigation/Navigation';
 import './Header.css';
 
 function Header(props) {
-    const {isOpen, onClose, onOpenMobileMenu} = props; 
+     const { isOpen, onClose, onOpenMobileMenu } = props;
 
     return (
         <Switch>

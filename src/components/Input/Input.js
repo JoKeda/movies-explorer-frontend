@@ -11,7 +11,10 @@ function Input(props) {
         maxLength,
         title,
         required,
-        label
+        label,
+        change,
+        onblur,
+        name
     } = props;
 
     return (
@@ -27,6 +30,10 @@ function Input(props) {
                 title={title}
                 minLength={minLength}
                 maxLength={maxLength}
+                onChange={props.change}
+                onBlur={props.onblur}
+                name={props.name}
+
             />
         </div>
     )

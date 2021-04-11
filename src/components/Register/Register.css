@@ -93,6 +93,11 @@
     transition: ease .3s;
 }
 
+.error {
+    margin-top: 20px;
+    font-size: 14px;
+}
+
 @media screen and (max-width: 1279px) {
     .register__submit-button {
         margin: 150px 0 0 0;

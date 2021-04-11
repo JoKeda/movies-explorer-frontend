@@ -1,6 +1,6 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Route, Switch} from 'react-router-dom';
-
+import {Context} from "../../context/Context"
 import Header from '../Header/Header';
 import Main from '../Main/Main';
 import Footer from '../Footer/Footer';
@@ -10,22 +10,17 @@ import PageNotFound from '../PageNotFound/PageNotFound';
 import Profile from '../Profile/Profile'
 import Register from '../Register/Register';
 import Login from '../Login/Login';
-
+import {getUserData} from "../../utils/MainApi"
+import Preloader from "../Preloader/Preloader"
 import './App.css';
+import AuthRoutesContainer from "../AuthRoutesWrapper";
 
 function App() {
+    const [userDataChanged, setUserDataChanged] = useState(false)
     const [isMobileMenuOpen, toggleMobileMenu] = React.useState(false);
-
-    const routes = [
-        {id: 7, path: "/", exact: true, component: Main},
-        {id: 8, path: "/main", exact: true, component: Main},
-        {id: 1, path: "/signup", component: Register},
-        {id: 2, path: "/signin", component: Login},
-        {id: 3, path: "/movies", component: Movies},
-        {id: 4, path: "/saved-movies", component: SavedMovies},
-        {id: 5, path: "/profile", component: Profile},
-        {id: 6, path: "*", component: PageNotFound},
-    ]
+    const [isAuth, setIsAuth] = useState(false)
+    const [currentUser, setCurrentUser] = useState({})
+    const [logined, setLogined] = useState(false)
 
     function handleMobileMenuOpen() {
         toggleMobileMenu(true);
@@ -35,27 +30,58 @@ function App() {
         toggleMobileMenu(false);
     }
 
+    useEffect(() => {
+        const tkn = localStorage.getItem('token')
+        if (logined && tkn) {
+            try {
+                getUserData()
+                    .then(res => {
+                        console.log(res.data)
+                        setCurrentUser(res.data)
+                        setIsAuth(true)
+                        setUserDataChanged(false)
+
+                    })
+            } catch {
+
+            }
+        }
+    }, [logined, userDataChanged])
+
+
     return (
-        <div className="app">
-            <div className="app__content">
-                <Header
-                    isOpen={isMobileMenuOpen}
-                    onClose={handleMobileMenuClose}
-                    onOpenMobileMenu={handleMobileMenuOpen}
-                />
-                <Switch>
-                    {routes?.map((route) => (
-                        <Route
-                            path={route?.path}
-                            exact={route?.exact}
-                            component={route?.component}
-                            key={route?.id}
-                        />
-                    ))}
-                </Switch>
-                <Footer/>
+        <Context.Provider value={currentUser}>
+            <div className="app">
+                <div className="app__content">
+                    <Header
+                        isOpen={isMobileMenuOpen}
+                        onClose={handleMobileMenuClose}
+                        onOpenMobileMenu={handleMobileMenuOpen}
+                    />
+                    <Switch>
+                        <AuthRoutesContainer isAuth={isAuth} setAuth={setIsAuth}>
+                                        <Route path="/profile" render={() => <Profile isAuth={isAuth} logined={logined}
+                                                                                      setLogined={setLogined}
+                                                                                      setIsAuth={setIsAuth}
+                                                                                      userDataChanged={userDataChanged}
+                                                                                      setUserDataChanged={setUserDataChanged}
+                                                                                      setCurrentUser={setCurrentUser}/>}/>
+                                        <Route path="/movies" render={() => <Movies isAuth={isAuth}/>}/>
+                                        <Route path="/saved-movies" render={() => <SavedMovies isAuth={isAuth}/>}/>
+
+
+                                        <Route path="/" exact render={() => <Main isAuth={isAuth}/>}/>
+                                        <Route path="/signin" render={() => <Login isAuth={isAuth} setIsAuth={setIsAuth}
+                                                                                   logined={logined}
+                                                                                   setLogined={setLogined}/>}/>
+                                        <Route path="/signup" render={() => <Register isAuth={isAuth}/>}/>
+
+                        </AuthRoutesContainer>
+                    </Switch>
+                    <Footer/>
+                </div>
             </div>
-        </div>
+        </Context.Provider>
     );
 }
 

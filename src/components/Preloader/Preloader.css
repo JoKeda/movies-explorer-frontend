@@ -65,6 +65,12 @@
     border-radius: 50px;
 }
 
+.preloader_wrapper {
+    position: fixed;
+    top:40%;
+    left:45%
+}
+
 .preloader__round::after,
 .preloader__round::before {
     content: '';

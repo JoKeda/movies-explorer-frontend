@@ -112,6 +112,10 @@
     transition: ease .3s;
 }
 
+.error {
+    margin-top: 50px;
+}
+
 @media screen and (max-width: 767px) {
     .login {
         padding: 56px 30px 30px 30px;
