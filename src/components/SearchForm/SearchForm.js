@@ -244,16 +244,16 @@ useEffect(() => {
 
 
 
-function searchMovieFilter(movies, value) {
+function searchMovieFilter(movies=[], value="") {
         return movies.filter((movie) => {
             return movie.nameRU.toLowerCase().includes(value.toLowerCase())} );
 }
 
-function movieDurationFilterShort(movies) {
-    return movies.filter((movie) =>movie.duration <= 40 );
+function movieDurationFilterShort(movies=[]) {
+    return movies?.filter((movie) =>movie.duration <= 40 );
     }
 
-function movieDurationFilterLong(movies) {
+function movieDurationFilterLong(movies=[]) {
     return movies.filter((movie) =>movie.duration > 40 );
   }
 
@@ -275,7 +275,7 @@ const onCheckboxChange = () => {
         setCheckboxChecked(!checkboxChecked);
     }
   
-const changeMoviesList = (movie1, movie2) => {
+const changeMoviesList = (movie1=[], movie2=[]) => {
         if (checkboxChecked == false) {
             return movie1
         } 

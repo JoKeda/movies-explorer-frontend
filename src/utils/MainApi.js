@@ -3,7 +3,7 @@ import *as axios from "axios"
 
 
 const instance = axios.create({
-    baseURL: 'http://diplom-movies.students.nomoredomains.icu',
+    baseURL: 'http://localhost:3000',
     headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/JSON',

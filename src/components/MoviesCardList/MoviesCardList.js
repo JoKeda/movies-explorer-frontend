@@ -10,7 +10,7 @@ const [increment,setIncrement]=useState(4)
 
     
     
-const changeMoviesList = (movie1, movie2) => {
+const changeMoviesList = (movie1=[], movie2=[]) => {
         if (props.checkboxChecked == false) {
             return movie1
             console.log(movie1)
