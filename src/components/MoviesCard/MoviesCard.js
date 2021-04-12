@@ -35,7 +35,7 @@ function MoviesCard(props) {
 
     const [isFetching,setIsFetching]=useState(false)
     const [hasSaveMovie,setHasSaveMovie]=useState(true)
-    const [saveMovie,setSaveMovie]=useState(props.saveMovie)
+    
 
     if (isFetching) {
     return <Preloader/>
@@ -57,15 +57,16 @@ function MoviesCard(props) {
                                key={item.id}
                                movie={item}
                                duration={`${Math.floor(item.duration / 60)}ч ${item.duration % 60}м`}
-                               src={`${apiUrl}${item.image ? item.image.url : ''}`}
+                               src={`${apiUrl}${item.image ? item.image.url :null}`}
                                href={item.trailerLink}
                                toggleMovieSave={props.toggleMovieSave}
                                id={item._id}
                                reset={props.reset}
                                shortId={item.id}
+                               removeMovie={props.removeMovie}
                                isAdd={props.isAdd}
-                             setIsAdd={props.setIsAdd}
-                             removeMovie={props.removeMovie}
+                               
+                               
                            />
                      })}
                 </Route>
@@ -84,13 +85,12 @@ function MoviesCard(props) {
                                key={item.id}
                                movie={item}
                                duration={`${Math.floor(item.duration / 60)}ч ${item.duration % 60}м`}
-                               src={item.image}
+                               src={item.image?item.image.url:item.image}
                                hasSaveMovie={hasSaveMovie}
                                id={item._id}
                                href={item.trailer}
                                reset={props.reset}
-                                isAdd={props.isAdd}
-                            setIsAdd={props.setIsAdd}
+
                            />
                      })}
                 </Route>

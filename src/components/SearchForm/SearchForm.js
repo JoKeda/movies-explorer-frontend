@@ -15,6 +15,7 @@ import { Context } from "../../context/Context"
 
 
 function SearchForm(props) {
+    const [moviesData,setMoviesData]=useState([])
     const [clicked,setCklicked]=useState(false)
     const [allMovies, setAllMovies] = useState([])
     const [saveMovies, setSaveMovies] = useState([])
@@ -31,43 +32,25 @@ function SearchForm(props) {
     const user=useContext(Context)
 
 function matchedMovies(movies=[], userMovies=[]) {
-    for (let i = 0; i < movies.length; i++){
-        for (let j = 0; j < userMovies.length; j++){
-            if (movies[i].id == userMovies[j].movieId) {
-                movies[i]._id = userMovies[j]._id
-                movies[i].isAdded=true
-                console.log(movies[i])
+    const mergedMovies = [...movies]
+    for (let j = 0; j < userMovies.length; j++){
+        for (let i = 0; i < mergedMovies.length; i++){
+            if (mergedMovies[i].id === userMovies[j].movieId) {
+                   mergedMovies[i]=userMovies[j]
+             console.log(mergedMovies[i]+"merged")
+              
             }
           
         }
-
     }
-    return movies;
-    }
-
-
-function addMatchedMovies(saveMovies=[],movie,id) {
-    for (let i = 0; i < saveMovies.length; i++){
-        if (saveMovies[i].id == id) {
-            movie.isAdded = true
-            movie._id=saveMovies[i]._id
-        }
-
-    }
-    console.log(movie)
-    return movie;
+    return mergedMovies;
     }
 
-function removeMatchedMovies(saveMovies=[],movie,id) {
-    for (let i = 0; i < saveMovies.length; i++){
-        if (saveMovies[i]._id == id) {
-            movie.isAdded = false
-            
-        }
 
-    }
-    return movie;
-    }
+
+
+
+
 
 
 useEffect(async() => {
@@ -75,6 +58,7 @@ useEffect(async() => {
         try {
          const res=await  setMovies()
             if (res.statusText == "OK") {
+                setMoviesData(res.data)
                 setAllMovies(res.data)
                 setNotification("")
          }  }
@@ -82,7 +66,7 @@ useEffect(async() => {
             setNotification('Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз.')
         }
         setIsFetching(false)
-    }, [])
+}, [])
 
 
 useEffect(async() => {
@@ -92,24 +76,82 @@ useEffect(async() => {
            
             if (res.statusText == "OK") {
                 setSaveMovies(res.data)
-                // setAllMovies(matchedMovies(allMovies,saveMovies))
+               setAllMovies(matchedMovies(moviesData,res.data))
                         setNotification("")
                     }
         }
         catch (e) {
              setNotification('Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз.')
         }
-       setIsFetching(false) 
-    }, [])
+    setIsFetching(false)
+    
+},[])
+    
+   
+    
+const toggleMovieSave = (movie) => {
+        if (saveMovies.findIndex(item=>item.movieId===movie.id||movie.movieId||movie._id)==-1) {
+            setIsFetching(true)
+            try {
+                saveMovie(movie)
+                    .then(response => {
+                        if (response.status == 201) {
+                            getMovies()
+                                .then(res => {
+                                    if (res.statusText == "OK") {
+                                        setSaveMovies(res.data)
+                                        setAllMovies(matchedMovies(moviesData,res.data))
+                                        setIsAdd(true)
+                                    }
+                                })
+
+                    
+                            setNotification("")
+                
+                        }
+                    })
+            }
+            catch (e) {
+                // setNotification('Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз.')
+            }
+            setIsFetching(false)
+        }
+    }
+
+const removeId = (allMovies = [], id) => {
+  const allNewMovies=[...allMovies]
+     for (let i = 0; i < allNewMovies.length; i++){
+                if (allMovies[i]._id === id) {
+                    delete allMovies[i]._id
+                   
+                }
+    }
+    return allNewMovies
+}
     
 
-const removeMovie = async(movie,id) => {
+
+
+ const removeMovie = async (id) => {
+
+   
     setIsFetching(true)
     try {
-       let res= await deleteMovies(id)
-        if (res.data.status == 200) {
-              setAllMovies(prev=>[...prev,removeMatchedMovies(saveMovies,movie,id)])
-                reset()
+        let res = await deleteMovies(id)
+       
+        if (res.status == 200) {
+           removeId(allMovies,id)
+                     getMovies()
+                                .then(res => {
+                                    if (res.statusText == "OK") {
+                                        setSaveMovies(res.data)
+                                        setAllMovies(matchedMovies(moviesData,res.data))
+                                        setIsAdd(true)
+                                    }
+                                })
+    
+        
+                reset(id)
           }
  } catch(e) {
   
@@ -130,13 +172,15 @@ const reset = async (id) => {
                     }
         }
         catch (e) {
-              setNotification('Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз.')
+            //   setNotification('Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз.')
         }
         setIsFetching(false)
-}
+}  
 
-    
-
+//     const reset = (id) => {
+//                             setSaveMovies(prev => prev.filter(item => item._id !== id))
+//                         setNotification("")
+// }        
 
 
 
@@ -165,11 +209,6 @@ const searchData = (e) => {
     const longSaveMovies=(saveMovies.length>0)?movieDurationFilterLong(saveMovies):[]
     
 
-useEffect(() => {
-    
-setAllMovies(matchedMovies(allMovies,saveMovies))
-     console.log(saveMovies) 
-})
 
 
 
@@ -201,23 +240,7 @@ useEffect(() => {
 },[error])
 
     
-const toggleMovieSave = (movie,id,shortId) => {
-       setIsFetching(true)
-        try {
-            saveMovie(movie)
-                .then(response => {
-                    if (response.status == 201) {
-                    setAllMovies(prev=>[...prev,addMatchedMovies(saveMovies,movie,shortId)])
-                    setNotification("")
-                
-             }
-            })
-        }
-        catch (e) {
-               setNotification('Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз.')
-        }
-      setIsFetching(false)
-  }
+
 
 
 
@@ -258,7 +281,12 @@ const changeMoviesList = (movie1, movie2) => {
         } 
         return movie2
     }
-
+const onKeyPressHandler = (e) => {
+        if (e.key == "Enter") {
+       setSearchValue(prev => prev = inputValue)
+       setCklicked(true)
+    }
+}
 if (isFetching) {
         return <Preloader/>
     }
@@ -274,7 +302,8 @@ if (isFetching) {
                     placeholder="Фильм"
                     minLength="2"
                     maxLength="30"
-                    onChange={e =>checkOnInputChange(e.target.value)}
+                    onChange={e => checkOnInputChange(e.target.value)}
+                    onKeyPress={onKeyPressHandler}
                     value={inputValue}
                     onBlur={e=>handleBlur(e)}
                     name="search"
@@ -311,6 +340,7 @@ if (isFetching) {
             isAdd={isAdd}
             setIsAdd={setIsAdd}
             removeMovie={removeMovie}
+            
         />
         
 </>)

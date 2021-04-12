@@ -11,7 +11,7 @@ const AuthRoutesContainer = ({children,isAuth,setAuth}) => {
             setLoading(true);
             (async () => {
                 const userData = await getUserData();
-                console.log('userData',userData)
+               
                 if(userData?.data?.email){
                     setAuth(true)
                 }

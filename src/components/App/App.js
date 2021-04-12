@@ -36,7 +36,7 @@ function App() {
             try {
                 getUserData()
                     .then(res => {
-                        console.log(res.data)
+                        
                         setCurrentUser(res.data)
                         setIsAuth(true)
                         setUserDataChanged(false)

@@ -3,7 +3,7 @@ import *as axios from "axios"
 
 
 const instance = axios.create({
-    baseURL: 'http://diplom-movies.students.nomoredomains.icu/',
+    baseURL: 'http://diplom-movies.students.nomoredomains.icu',
     headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/JSON',
@@ -47,23 +47,6 @@ export const saveMovie = (movie) => {
     }), { headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }})
 }
 
-// export const saveMovie = (movie) => {
-//     return instance.post(`/movies`, JSON.stringify({
-       
-//         country: movie.country ? movie.country : 'Страна не указана',
-//         director: movie.director ? movie.director : 'Режиссер не указан',
-//         duration: movie.duration ? movie.duration : 0,
-//         year: movie.year ? movie.year : 'Год не указан',
-//         description: movie.description ? movie.description : 'Описание не указано',
-//         image: movie.image ? `https://api.nomoreparties.co${movie.image.url}` : null,
-        
-//         trailer: movie.trailerLink ? movie.trailerLink :  'https://me-mk.students.nomoredomains.monster/not-found',
-//         thumbnail: `https://api.diplom-film.students.nomoredomains.icu${movie.image.formats.thumbnail ? movie.image.formats.thumbnail.url : ''}` || "",
-//         movieId:movie.id,
-//         nameRU: movie.nameRU ? movie.nameRU : 'Название не указано',
-//         nameEN: movie.nameEN ? movie.nameEN : 'Название не указано'
-//     }), { headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }})
-// }
 
 
 

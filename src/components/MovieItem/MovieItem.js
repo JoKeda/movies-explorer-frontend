@@ -13,17 +13,18 @@ const MovieItem = (props) => {
 
 
     
-const handleClick = (movie,id=null,shortId) => {
-    if ((movie.isAdded=false|| !movie.isAdded) && id===null) {
-        props.toggleMovieSave(movie,id,shortId)
+    const handleClick = (movie, id) => {
         
-    } else if(movie,id){
-        props.removeMovie(movie,id)
    
+        
+    if ((!props.id)) {
+        props.toggleMovieSave(movie,id)
+        
     } else {
-        console.log("net id")
+    
+        props.removeMovie(id)
+   
     }
-
 }
  
 
@@ -36,14 +37,14 @@ const handleClick = (movie,id=null,shortId) => {
                     
                     return  <>
                             <figure className="movies-card" key={props.key}>
-                               <a target="_blank" href={props.href}> <img className="movies-card__image" src={props.src} /></a>
+                               <a target="_blank" href={props.href}> <img className="movies-card__image" src={props.id?props.movie.image:(props.src)?props.src:props.movie.image} /></a>
                             <figcaption className="movies-card__description">
                                 <p className="movies-card__text">{props.movie.nameRU}</p>
 
                                 {
                                     props.hasSaveMovie ? <img src={deleteButtonIcon} className="movies-card__like-icon" alt="like icon" movie={props.movie} onClick={()=>{props.reset(props.id)}}/>:
-                                   ((props.movie.isAdded && props.id) ? <img src={likeIconLiked} className="movies-card__like-icon" alt="like icon" movie={props.movie} onClick={() => {handleClick(props.movie,props.id,props.shortId) }} /> :
-                                            <img src={likeIconUnLiked} className="movies-card__like-icon" alt="like icon" movie={props.movie} onClick={() => {handleClick(props.movie,props.id) }} />)
+                                   ((props.id) ? <img src={likeIconLiked} className="movies-card__like-icon" alt="like icon" movie={props.movie} onClick={() => {handleClick(props.movie,props.id) }} /> :
+                                            <img src={likeIconUnLiked} className="movies-card__like-icon" alt="like icon" movie={props.movie} onClick={() => {handleClick(props.movie,props.id,e) }} />)
                                         
                                 }
                              
