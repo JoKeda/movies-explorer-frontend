@@ -3,7 +3,7 @@ import *as axios from "axios"
 
 
 const instance = axios.create({
-    baseURL: 'https://api.diplom-film.students.nomoredomains.icu',
+    baseURL: 'https://api.diplom-movies.students.nomoredomains.icu',
     headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/JSON',

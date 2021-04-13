@@ -6,6 +6,6 @@
 
 Технологии: MongoDB, JavaScript, React, Git, Node.js, API REST.
 
-Адрес: http://diplom-movies.students.nomoredomains.icu
-IP: http://api.diplom-movies.students.nomoredomains.icu
+Адрес: https://diplom-movies.students.nomoredomains.icu
+IP: https://api.diplom-movies.students.nomoredomains.icu
 Публичный IPv4: 84.201.147.139
