@@ -41,8 +41,12 @@ const handleCklick = (keys) => {
                     setLogined(true)
                     setIsAuth(true)
                     history.push('/movies')   
+                }else{
+                    setError(response.message)
                 }
-               })
+                   })
+
+    
 
 
  setIsFetching(false)
@@ -53,11 +57,11 @@ const handleRegister = (keys) => {
         setIsFetching(true)
         mainApi.signUp(keys)
             .then(response => {
-           if (response.email) {
+           if (response) {
                     setError("")
                     history.push("/signin")
            } else {
-               setError('Произошла ошибка при попытке авторизоваться')
+            setError(response.message)
                  }
   
     })

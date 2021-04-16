@@ -164,7 +164,7 @@ const keys = { name, email, password }
                     />
                     <span id="register-input-error" className="register__input-error" />
                     {(passwordDirty && passwordError) && <span>{passwordError}</span>}
-                        <div className="error">{error}</div>
+                        <div className="error">{props.error}</div>
                     <button type="submit" className="register__submit-button" disabled={!formValid}>Зарегистрироваться</button>
                     <div className="register__task">
                         <p className="register__task-text">Уже зарегистрированы?</p>
