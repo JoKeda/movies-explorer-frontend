@@ -141,7 +141,7 @@ const handleSubmit = (e) => {
             
                     
                    } else {
-                        setNotification("Что-то пошло не так, попробуйте еще раз")
+                        setNotification(res.message)
                    }  
 
             })

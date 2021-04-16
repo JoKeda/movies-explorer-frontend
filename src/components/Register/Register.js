@@ -23,6 +23,10 @@ function Register(props) {
     const [isFetching,setIsFetching]=useState(false)
     const history = useHistory()
 
+
+
+    
+
 if(props.isAuth) history.push('/')
 
      function blurHandler(e) {
@@ -111,7 +115,9 @@ const keys = { name, email, password }
         e.preventDefault()
         props.handleRegister(keys)
 }
-
+    if (isFetching) {
+            return <Preloader/>
+        }
     return (
         <div className="register">
         
@@ -165,7 +171,7 @@ const keys = { name, email, password }
                     <span id="register-input-error" className="register__input-error" />
                     {(passwordDirty && passwordError) && <span>{passwordError}</span>}
                         <div className="error">{props.error}</div>
-                    <button type="submit" className="register__submit-button" disabled={!formValid}>Зарегистрироваться</button>
+                    <button type="submit" className={!isFetching?"register__submit-button":"disabledButton"} disabled={!formValid||props.isFetching}>Зарегистрироваться</button>
                     <div className="register__task">
                         <p className="register__task-text">Уже зарегистрированы?</p>
                         <Link to="/signin" className="register__signin-link">Войти</Link>

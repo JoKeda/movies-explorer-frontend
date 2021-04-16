@@ -30,14 +30,15 @@ function SearchForm(props) {
     const [notification, setNotification] = useState("")
     const [isAdd,setIsAdd]=useState(false)
     const user=useContext(Context)
-
+  
+    
 function matchedMovies(movies=[], userMovies=[]) {
     const mergedMovies = [...movies]
     for (let j = 0; j < userMovies.length; j++){
         for (let i = 0; i < mergedMovies.length; i++){
             if (mergedMovies[i].id === userMovies[j].movieId) {
                    mergedMovies[i]=userMovies[j]
-             console.log(mergedMovies[i]+"merged")
+     
               
             }
           
@@ -76,7 +77,7 @@ useEffect(async() => {
     mainApi.getMovies()
         .then(res => {
                 setSaveMovies(res)
-                setAllMovies(matchedMovies(moviesData,res))
+                setAllMovies(matchedMovies(allMovies,res))
                 setNotification("")
         })
         .catch(err => {

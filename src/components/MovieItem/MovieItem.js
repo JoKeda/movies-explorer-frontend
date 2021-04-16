@@ -40,11 +40,11 @@ const MovieItem = (props) => {
                                <a target="_blank" href={props.href}> <img className="movies-card__image" src={props.id?props.movie.image:(props.src)?props.src:props.movie.image} /></a>
                             <figcaption className="movies-card__description">
                                 <p className="movies-card__text">{props.movie.nameRU}</p>
-
+                               
                                 {
                                     props.hasSaveMovie ? <img src={deleteButtonIcon} className="movies-card__like-icon" alt="like icon" movie={props.movie} onClick={()=>{props.reset(props.id)}}/>:
                                    ((props.id) ? <img src={likeIconLiked} className="movies-card__like-icon" alt="like icon" movie={props.movie} onClick={() => {handleClick(props.movie,props.id) }} /> :
-                                            <img src={likeIconUnLiked} className="movies-card__like-icon" alt="like icon" movie={props.movie} onClick={() => {handleClick(props.movie,props.id,e) }} />)
+                                            <img src={likeIconUnLiked} className="movies-card__like-icon" alt="like icon" movie={props.movie} onClick={() => {handleClick(props.movie,props.id) }} />)
                                         
                                 }
                              

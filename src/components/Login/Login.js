@@ -11,6 +11,7 @@ import Preloader from '../Preloader/Preloader';
 import e from 'cors';
 
 function Login(props) {
+
     const [isFetching,setIsFetching]=useState(false)
     const [logined, setLogined] = useState(false)
     const [email, setEmail] = useState("")
@@ -92,7 +93,11 @@ const keys = { email, password }
 const handleSubmit = (e) => {
     e.preventDefault()
     props.handleCklick(keys)
-}
+    }
+    
+    if (props.isFetching) {
+            return <Preloader/>
+        }
         return (
             <div className="login">
              
@@ -132,7 +137,7 @@ const handleSubmit = (e) => {
                       
                         <span id="login-input-error" className="login__input-error" />
                         <div className="error">{props.error}</div>
-                        <button type="submit"  className="login__submit-button" disabled={!formValid}>Войти</button>
+                        <button type="submit" className={!isFetching?"login__submit-button":"disabledButton"} disabled={!formValid||props.isFetching}>Войти</button>
                         <div className="login__task">
                             <p className="login__task-text">Ещё не зарегистрированы?</p>
                             <Link to="/signup" className="login__signup-link">Регистрация</Link>

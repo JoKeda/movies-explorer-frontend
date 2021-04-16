@@ -14,8 +14,9 @@ const AuthRoutesContainer = ({children,isAuth,setAuth}) => {
                   .then(res => {
                 if(res?.email){
                     setAuth(true)
+                    setLoading(false)
                 }
-                setLoading(false)
+               
                })
 
             })()

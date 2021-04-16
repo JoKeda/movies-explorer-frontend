@@ -88,6 +88,10 @@
     color: #4285F4;
 }
 
+.disabledButton {
+    color: grey;
+}
+
 .register__signin-link:hover {
     opacity: 0.7;
     transition: ease .3s;

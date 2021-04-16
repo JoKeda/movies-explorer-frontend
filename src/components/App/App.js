@@ -40,7 +40,8 @@ const handleCklick = (keys) => {
                     localStorage.setItem("token", response.token)
                     setLogined(true)
                     setIsAuth(true)
-                    history.push('/movies')   
+                    history.push('/movies')
+                     setIsFetching(false)   
                 }else{
                     setError(response.message)
                 }
@@ -49,7 +50,7 @@ const handleCklick = (keys) => {
     
 
 
- setIsFetching(false)
+
     }
     
 
@@ -59,13 +60,14 @@ const handleRegister = (keys) => {
             .then(response => {
            if (response) {
                     setError("")
-                    history.push("/signin")
+               history.push("/signin")
+                setIsFetching(false)
            } else {
             setError(response.message)
                  }
   
     })
- setIsFetching(false)
+
   
 }
 
@@ -119,14 +121,20 @@ const tkn = localStorage.getItem('token')
             <div className="app">
                 <div className="app__content">
                     
-                    <Header
+                    {/* <Header
+                        isOpen={isMobileMenuOpen}
+                        onClose={handleMobileMenuClose}
+                        onOpenMobileMenu={handleMobileMenuOpen}
+                        isAuth={isAuth}
+                    /> */}
+           
+                    <AuthRoutesContainer isAuth={isAuth} setAuth={setIsAuth}>
+                                            <Header
                         isOpen={isMobileMenuOpen}
                         onClose={handleMobileMenuClose}
                         onOpenMobileMenu={handleMobileMenuOpen}
                         isAuth={isAuth}
                     />
-           
-                    <AuthRoutesContainer isAuth={isAuth} setAuth={setIsAuth}>
                                  <Switch>
                                         {/* <Route path="/profile" render={() => <Profile isAuth={isAuth} logined={logined}
                                                                                       setLogined={setLogined}
@@ -153,8 +161,10 @@ const tkn = localStorage.getItem('token')
                                                                                     error={error}
                                                                                     setLogined={setLogined}
                                                                                     handleCklick={handleCklick}
+                                                                                    isFetching={isFetching}
+                                  
                             />} />
-                            <Route path="/signup" render={() => <Register isAuth={isAuth} handleRegister={handleRegister} error={error}/>} />
+                            <Route path="/signup" render={() => <Register isAuth={isAuth} handleRegister={handleRegister} error={error} isFetching={isFetching}/>} />
                             <Route path="*" component={PageNotFound}/>
      </Switch>
                         </AuthRoutesContainer>
