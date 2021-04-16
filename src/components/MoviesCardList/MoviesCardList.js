@@ -31,26 +31,40 @@ const addCount = () => {
     
     }
 
-    useEffect(() => {
-    window.addEventListener('resize',function (e) {
-        if (window.screen.width<768&&window.screen.width>480) {
-            setCount(2)
+
+
+   ///////////////////var2/////
+const cardsCountChange = () => {
+    if (window.screen.width<768 && window.screen.width>480) {
+            setCount(8)
             setIncrement(2)
-        } else if (window.screen.width<480&&window.screen.width>320) {
-            setCount(2)
+        } else if (window.screen.width<=480 && window.screen.width>320) {
+            setCount(5)
             setIncrement(2)
-        } else if(window.screen.width>768<window.screen.width<1280){
+        } else if(window.screen.width>768 && window.screen.width<=1280){
             setCount(3)
             setIncrement(3)
-        } else {
+    }      else if(window.screen.width>=1280 && window.screen.width<1920){
             setCount(4)
             setIncrement(4)
+        } 
+    else {
+        
         }
-    })
+}
+
+useEffect(() => {
+    cardsCountChange()
 },[])
     
-
     
+useEffect(() => {
+        window.addEventListener('resize',
+        cardsCountChange
+    )
+    return () => window.removeEventListener('resize',cardsCountChange)
+})
+ 
 
 
 
@@ -63,9 +77,12 @@ const addCount = () => {
         <Switch>
             <Route path="/movies">
                 <section className="movies-card-list">
-                    <div className="error">{props.notification}</div>
+
+                    {(props.searchValue === "" && props.error !== "") && <div className="error">{props.notification}</div>}
+                    
+                    {((!movie.length&&props.error===""&&props.searchValue))?<div className="error">Ничего не найдено</div>:""}
                     <div className="movies-card-list__content">
-                        {(props.error==""&&props.clicked==true&&movie.length==0)?<div className="message">Ничего не найдено</div>:
+                     
                         <MoviesCard
                             movie={movie}
                             saveMovie={(props.searchValue) ? searchSaveMovie : saveMovie}
@@ -78,11 +95,11 @@ const addCount = () => {
                             isAdd={props.isAdd}
                             setIsAdd={props.setIsAdd}
                             removeMovie={props.removeMovie}
-                        />}
+                        />
                     </div>
                         
                        <div className="movies-card-list__block-more">
-                        {((movie)?( (movie.length > 0) && (movie.length > count)):"")?
+                        {((movie)?( (movie.length) && (movie.length > count)):"")?
                         <button onClick={addCount} className="movies-card-list__block-more-movies">Ещё</button> :null}
                     </div>
                 </section>
@@ -105,8 +122,12 @@ const addCount = () => {
 
             <Route path="/saved-movies">
                 <section className="movies-card-list">
+                                        {(props.searchValue === "" && props.error !== "") && <div className="error">{props.notification}</div>}
+                      
                     <div className="movies-card-list__content">
-                        {(props.error == "" && props.clicked == true && movie.length == 0) ? <div className="message">Ничего не найдено</div> :
+                    
+                    {((!searchSaveMovie.length&&props.error===""&&props.searchValue))?<div className="error">Ничего не найдено</div>:""}
+                        
                             <MoviesCard
                                 movie={movie}
                                 count={props.count}
@@ -116,7 +137,7 @@ const addCount = () => {
                                 allSaveMovies={props.allSaveMovies}
                                 checkboxChecked={props.checkboxChecked}
                                 reset={props.reset}
-                            />}
+                            />
                     </div>
                      <div className="movies-card-list__block-more">
                   

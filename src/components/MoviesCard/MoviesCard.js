@@ -43,12 +43,13 @@ function MoviesCard(props) {
 
     return (
         <>
-            
+       
             <Switch>
 
 
 
-                    <Route path="/movies">
+                <Route path="/movies">
+   
               {((props.movie)?(props.movie):[]).slice(0,props.count).map(item =>
 
                        {
@@ -78,6 +79,10 @@ function MoviesCard(props) {
 
 
                 <Route path="/saved-movies">
+            
+                
+
+
               {((props.saveMovie)?(props.saveMovie):[]).slice(0,props.count).map(item =>
 
                        {
@@ -92,7 +97,8 @@ function MoviesCard(props) {
                                reset={props.reset}
 
                            />
-                     })}
+              })}
+                  
                 </Route>
             </Switch>
        

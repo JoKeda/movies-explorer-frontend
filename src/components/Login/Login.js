@@ -8,6 +8,7 @@ import Input from "../Input/Input";
 import {Context}  from "../../context/Context"
 import './Login.css';
 import Preloader from '../Preloader/Preloader';
+import e from 'cors';
 
 function Login(props) {
     const [isFetching,setIsFetching]=useState(false)
@@ -22,7 +23,7 @@ function Login(props) {
     const [formValid, setFormValid] = React.useState(false);
     const history = useHistory()
 
-    if(props.isAuth) history.push('/movies')
+    if(props.isAuth) history.push('/')
 
 const handleEmail = (e) => {
         setEmail(e.target.value)
@@ -85,51 +86,19 @@ const handleEmail = (e) => {
     }
 
 
+const keys = { email, password }
 
 
-
-
-
-
-        const keys = { email, password }
-
-
-
-
-
-     const handleCklick = async (e) => {
-         e.preventDefault()
-        setIsFetching(true)
-            try {
-                const response = await signIn(keys)
-               
-                if (response.status == 200) {
-                    localStorage.setItem("token", response.data.token)
-                    props.setLogined(true)
-                    props.setIsAuth(true)
-                    
-                    history.push('/movies')
-                    
-                    
-                }
-           
-            }
-            catch (e) {
-                setError('Произошла ошибка при попытке авторизоваться')
-            }
-         setIsFetching(false)
-        }
-    
-    if (isFetching) {
-            return <Preloader/>
-        }
-
+const handleSubmit = (e) => {
+    e.preventDefault()
+    props.handleCklick(keys)
+}
         return (
             <div className="login">
              
                 <div className="login__section">
-                    <img className="login__logo" src={projectLogo} alt="Логотип" />
-                    <form className="login__form" onSubmit={handleCklick}>
+                   <Link to="/"><img className="login__logo" src={projectLogo} alt="Логотип" /></Link> 
+                    <form className="login__form" onSubmit={handleSubmit}>
                         <h1 className="login__title">Рады видеть!</h1>
                         <Input
                             label="E-mail"
@@ -162,8 +131,8 @@ const handleEmail = (e) => {
                              { (passwordDirty==true && passwordError)&&<span>{passwordError}</span>}
                       
                         <span id="login-input-error" className="login__input-error" />
-                        <div className="error">{error}</div>
-                        <button type="submit" className="login__submit-button" disabled={!formValid}>Войти</button>
+                        <div className="error">{props.error}</div>
+                        <button type="submit"  className="login__submit-button" disabled={!formValid}>Войти</button>
                         <div className="login__task">
                             <p className="login__task-text">Ещё не зарегистрированы?</p>
                             <Link to="/signup" className="login__signup-link">Регистрация</Link>

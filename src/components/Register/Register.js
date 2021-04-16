@@ -13,7 +13,6 @@ function Register(props) {
     const [email,setEmail]=useState("")
     const [password,setPassword]=useState("")
     const [error, setError] = useState("")
-    const [registered, setRegistered] = useState(false)
     const [emailDirty, setEmailDirty] = React.useState(false);
     const [passwordDirty, setPasswordDirty] = React.useState(false);
     const [nameDirty, setNameDirty] = React.useState(false);
@@ -23,7 +22,8 @@ function Register(props) {
     const [formValid, setFormValid] = React.useState(false)
     const [isFetching,setIsFetching]=useState(false)
     const history = useHistory()
-    if(props.isAuth) history.push('/movies')
+
+if(props.isAuth) history.push('/')
 
      function blurHandler(e) {
         switch (e.target.name) {
@@ -105,51 +105,18 @@ function Register(props) {
         }
     }, [emailError, passwordError, nameError]);
 
-
-
-
-
-
-    const keys = { name, email, password }
-    
-
-    const handleCklick = async (e) => {
-        setIsFetching(true)
-    e.preventDefault()
-        if (name !== "" && email !== "" && password !== "") {
-            try {
-                const response = await signUp(keys)
-                if (response.status == 201) {
-                    setError("")
-                    setRegistered(true)
-                    console.log(registered)
-                    history.push("/signin")
-              }
-            }
-            catch(e) {
-                
-                setError("'Произошла ошибка при попытке зарегистрироваться'")
-            }
-          
-       setIsFetching(false)
-     }
-    
-    
+const keys = { name, email, password }
+        
+    const handleCklick = (e) => {
+        e.preventDefault()
+        props.handleRegister(keys)
 }
-
-    
-
-
-    if (isFetching) {
-       return <Preloader/>
-   }
-   
 
     return (
         <div className="register">
-            {/* {(registered)?<div>hello</div>: null} */}
+        
             <div className="register__section">
-                <img className="register__logo" src={projectLogo} alt="Логотип"/>
+               <Link to="/"><img className="register__logo" src={projectLogo} alt="Логотип"/></Link> 
                 <form className="register__form" onSubmit={handleCklick}>
                     <h1 className="register__title">Добро пожаловать!</h1>
                     <Input

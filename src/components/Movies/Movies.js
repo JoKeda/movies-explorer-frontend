@@ -17,8 +17,9 @@ import { Redirect } from "react-router-dom"
 
 function Movies(props) {
 
-const {isAuth,setIsAuth}=useContext(Context)
+
     const history = useHistory()
+    // if(!props.isAuth) history.push('/')
     return (
         <div className="movies">
            <SearchForm />
