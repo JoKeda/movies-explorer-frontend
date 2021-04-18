@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { connectAdvanced } from 'react-redux';
 import {Link, Redirect, useHistory} from 'react-router-dom';
 import { withRouter } from "react-router-dom";
@@ -8,8 +8,10 @@ import Input from "../Input/Input";
 import {Context}  from "../../context/Context"
 import './Login.css';
 import Preloader from '../Preloader/Preloader';
+import e from 'cors';
 
 function Login(props) {
+
     const [isFetching,setIsFetching]=useState(false)
     const [logined, setLogined] = useState(false)
     const [email, setEmail] = useState("")
@@ -22,9 +24,13 @@ function Login(props) {
     const [formValid, setFormValid] = React.useState(false);
     const history = useHistory()
 
-    if(props.isAuth) history.push('/movies')
 
-const handleEmail = (e) => {
+    
+
+    if(props.isAuth) history.push('/')
+
+    const handleEmail = (e) => {
+    props.setError("")
         setEmail(e.target.value)
         const regExpEmail = /^([\w.*-]+@([\w-]+\.)+[\w-]{2,4})?$/.test(e.target.value);
 
@@ -39,6 +45,7 @@ const handleEmail = (e) => {
 
 
     const handlePassword = (e) => {
+            props.setError("")
         setPassword(e.target.value)
         const regExpPassword = /^\S*$/.test(e.target.value);
 
@@ -55,12 +62,12 @@ const handleEmail = (e) => {
     }
 
     React.useEffect(() => {
-        if (emailError || passwordError) {
+        if (emailError !== "" || passwordError !== ""||props.error!=="") {
             setFormValid(false);
         } else {
             setFormValid(true);
         }
-    }, [emailError, passwordError]);
+    }, [emailError, passwordError,props.error]);
 
 
 
@@ -85,51 +92,23 @@ const handleEmail = (e) => {
     }
 
 
+const keys = { email, password }
 
 
-
-
-
-
-        const keys = { email, password }
-
-
-
-
-
-     const handleCklick = async (e) => {
-         e.preventDefault()
-        setIsFetching(true)
-            try {
-                const response = await signIn(keys)
-               
-                if (response.status == 200) {
-                    localStorage.setItem("token", response.data.token)
-                    props.setLogined(true)
-                    props.setIsAuth(true)
-                    
-                    history.push('/movies')
-                    
-                    
-                }
-           
-            }
-            catch (e) {
-                setError('Произошла ошибка при попытке авторизоваться')
-            }
-         setIsFetching(false)
-        }
+const handleSubmit = (e) => {
+    e.preventDefault()
+    props.handleCklick(keys)
+    }
     
-    if (isFetching) {
+    if (props.isFetching) {
             return <Preloader/>
         }
-
         return (
             <div className="login">
              
                 <div className="login__section">
-                    <img className="login__logo" src={projectLogo} alt="Логотип" />
-                    <form className="login__form" onSubmit={handleCklick}>
+                   <Link to="/"><img className="login__logo" src={projectLogo} alt="Логотип" /></Link> 
+                    <form className="login__form" onSubmit={handleSubmit}>
                         <h1 className="login__title">Рады видеть!</h1>
                         <Input
                             label="E-mail"
@@ -162,8 +141,8 @@ const handleEmail = (e) => {
                              { (passwordDirty==true && passwordError)&&<span>{passwordError}</span>}
                       
                         <span id="login-input-error" className="login__input-error" />
-                        <div className="error">{error}</div>
-                        <button type="submit" className="login__submit-button" disabled={!formValid}>Войти</button>
+                        <div className="error">{props.error}</div>
+                        <button type="submit" className={formValid?"login__submit-button":"disabledButton"} disabled={!formValid||props.isFetching}>Войти</button>
                         <div className="login__task">
                             <p className="login__task-text">Ещё не зарегистрированы?</p>
                             <Link to="/signup" className="login__signup-link">Регистрация</Link>

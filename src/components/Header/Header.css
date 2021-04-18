@@ -167,6 +167,11 @@
     transition-delay: 0s, 0.3s;
 }
 
+.header__auth-container__main-page a {
+    text-decoration: none;
+    color: white;
+}
+
 @media screen and (max-width: 1279px) {
     .header {
         padding: 18px 30px 18px 30px;
@@ -215,6 +220,10 @@
     .header__auth-link {
         font-size: 10px;
     }
+
+    .header__auth-container__main-page a {
+            font-size: 14px;
+}
 }
 
 @media screen and (max-width: 767px) {
@@ -230,4 +239,16 @@
         top: 24px;
         right: 15px;
     }
+}
+
+@media screen and (max-width: 500px) {
+    .header__auth-container__main-page a {
+            font-size: 12px;
+}
+}
+
+@media screen and (max-width: 375px) {
+    .header__auth-container__main-page a {
+            font-size: 10px;
+}
 }

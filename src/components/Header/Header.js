@@ -7,6 +7,7 @@ import Navigation from '../Navigation/Navigation';
 import './Header.css';
 
 function Header(props) {
+ 
      const { isOpen, onClose, onOpenMobileMenu } = props;
 
     return (
@@ -15,9 +16,12 @@ function Header(props) {
                 <header className="header header__bg-blue">
                     <Link to="/"><img className="header__logo" src={projectLogo} alt="Логотип"/></Link>
                     <nav className="header__auth-container__main-page">
-                        <Link to="/signup"
-                              className="header__auth-link header__auth-link_type_signup">Регистрация</Link>
-                        <Link to="/signin" className="header__auth-link header__auth-link_type_signin">Войти</Link>
+                        
+                        {(props.isAuth) ? <Link to="/movies">Фильмы</Link> : <Link to="/signup"
+                            className="header__auth-link header__auth-link_type_signup">Регистрация</Link>}
+                        {(props.isAuth) ? <Link to="/saved-movies">Сохранённые фильмы</Link> :
+                            <Link to="/signin" className="header__auth-link header__auth-link_type_signin">Войти</Link>}
+                        {(props.isAuth) ? <Link to="/profile">Аккаунт</Link> :null}
                     </nav>
                 </header>
             </Route>

@@ -116,6 +116,11 @@
     margin-top: 50px;
 }
 
+.disabledButton {
+   background-color: grey;
+   color: red;
+}
+
 @media screen and (max-width: 767px) {
     .login {
         padding: 56px 30px 30px 30px;

@@ -1,38 +1,85 @@
 
-import *as axios from "axios"
-
-
-const instance = axios.create({
-    baseURL: 'https://api.diplom-movies.students.nomoredomains.icu',
-    headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/JSON',
-        
-    },
-})
 
 
 
 
-export const signUp = (key) => {
-    return instance.post(`/signup`,JSON.stringify(key) )  
-}
-
-export const signIn = (key) => {
-    return instance.post(`/signin`,JSON.stringify(key) )  
-}
-
-export const getMovies = () => {
-    return instance.get(`/movies`, { headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }})  
-}
-
-export const deleteMovies = (movieId) => {
-    return instance.delete(`/movies/${movieId}`, { headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }})  
-}
+// //////////////_
 
 
-export const saveMovie = (movie) => {
-    return instance.post(`/movies`, JSON.stringify({
+class MainApi {
+    constructor(config) {
+        this._url = config.url;
+        this._headers = config.headers;
+    }
+
+getUserData() {
+        const jwt = localStorage.getItem('token');
+        return fetch(`${this._url}/users/me`, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwt}`
+            }
+        })
+        .then((res) => {
+            if (res.ok) {
+                return res.json();
+            }
+            return Promise.reject('Произошла ошибка при загрузке данных пользователя');
+        })
+
+    }
+
+updateUserData(key) {
+        const jwt = localStorage.getItem('token');
+        return fetch(`${this._url}/users/me`, {
+            method: 'PATCH',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwt}`
+            },
+            body: JSON.stringify(key)
+        })
+             .then((res) => {
+            if (res.ok) {
+                return res.json();
+            }
+            return Promise.reject('Произошла ошибка при редактировании данных пользователя');
+        })
+            
+    }
+
+getMovies() {
+        const jwt = localStorage.getItem('token');
+        return fetch(`${this._url}/movies`, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwt}`
+            }
+        })
+        .then((res) => {
+            if (res.ok) {
+                return res.json();
+            }
+            return Promise.reject('Произошла ошибка при загрузке списка фильмов пользователя');
+        })
+
+    }
+
+saveMovie(movie) {
+        const jwt = localStorage.getItem('token');
+        return fetch(`${this._url}/movies`, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwt}`
+            },
+            body: JSON.stringify({
         movieId:movie.id,
         country: movie.country ? movie.country : 'Страна не указана',
         director: movie.director ? movie.director : 'Режиссер не указан',
@@ -44,25 +91,92 @@ export const saveMovie = (movie) => {
         thumbnail: `https://api.diplom-film.students.nomoredomains.icu${movie.image.formats.thumbnail ? movie.image.formats.thumbnail.url : ''}` || null,
         nameRU: movie.nameRU ? movie.nameRU : 'Название не указано',
         nameEN: movie.nameEN ? movie.nameEN : 'Название не указано'
-    }), { headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }})
+            })
+        })
+        .then((res) => {
+            if (res.ok) {
+                return res.json();
+            }
+              return Promise.reject('Произошла ошибка при попытке добавить фильм');
+        })
+
+    }
+
+    deleteMovies(movieId) {
+        const jwt = localStorage.getItem('token');
+        return fetch(`${this._url}/movies/${movieId}`, {
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwt}`
+            },
+        })
+        .then((res) => {
+            if (res.ok) {
+                return res.json();
+            }
+                 return Promise.reject('Произошла ошибка при попытке удалить фильм');
+        })
+
+    }
+
+    signUp(key) {
+        return fetch(`${this._url}/signup`, {
+            method: 'POST',
+            headers: this._headers,
+            body: JSON.stringify(key)
+        })
+              .then((res) => {
+            if (res.ok) {
+                return res.json();
+            }
+                 return Promise.reject('Произошла ошибка при попытке зарегистрироваться');
+        })
+      
+    }
+
+    signIn(key) {
+        return fetch(`${this._url}/signin`, {
+            method: 'POST',
+            headers: this._headers,
+            body: JSON.stringify(key)
+        })
+            .then((res) => {
+            if (res.ok) {
+                return res.json();
+            }
+                 return Promise.reject('Произошла ошибка при попытке авторизоваться');
+        })  
+
+    }
+
+getUserData(jwt) {
+        return fetch(`${this._url}/users/me`, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwt}`
+            }
+        })
+        .then((res) => {
+            if (res.ok) {
+                return res.json();
+            }
+            return Promise.reject('Произошла ошибка при попытке проверить токен');
+        })
+
+    }
 }
 
+const mainApi = new MainApi({
+    url: 'https://api.diplom-movies.students.nomoredomains.icu',
+    headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/JSON',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+    },
+});
 
-
-
-
-
-export const getUserData = () => {
-    return instance.get(`/users/me`, { headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }})
-    
-}
-
-export const updateUserData = (key) => {
-    return instance.patch(`/users/me`,JSON.stringify(key), { headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }})
-    
-}
-
-
-
-
-
+export default mainApi;

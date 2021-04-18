@@ -1,13 +1,10 @@
-import e from 'cors';
 import React, { useEffect, useRef ,useState,useContext} from 'react';
-import {connect} from "react-redux"
-import { deleteMovies,getMovies,saveMovie } from '../../utils/MainApi';
+import mainApi from '../../utils/MainApi';
 import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
 import MoviesCardList from "../MoviesCardList/MoviesCardList"
 import Preloader from '../Preloader/Preloader';
-import {setMovies} from "./../../utils/MoviesApi"
+import moviesApi from "./../../utils/MoviesApi"
 import './SearchForm.css';
-import { useHistory } from 'react-router';
 import { Context } from "../../context/Context"
 
 
@@ -15,11 +12,12 @@ import { Context } from "../../context/Context"
 
 
 function SearchForm(props) {
-    const [moviesData,setMoviesData]=useState([])
+
+    const [moviesData,setMoviesData]=useState(props.moviesData)
     const [clicked,setCklicked]=useState(false)
-    const [allMovies, setAllMovies] = useState([])
+    const [allMovies, setAllMovies] = useState(props.allMovies)
     const [saveMovies, setSaveMovies] = useState([])
-    const [error, setError] = useState("")
+    const [error, setError] = useState('Нужно ввести ключевое слово')
     const ref = useRef(null)
     const [searchValue, setSearchValue] = useState("")
     const [checkboxChecked, setCheckboxChecked] = useState(false)
@@ -27,17 +25,18 @@ function SearchForm(props) {
     const [isFetching,setIsFetching]=useState(false)
     const [valid,setValid]=useState(true)
     const [searchDataDirty, setSearchDataDirty] = useState(false)
-    const [notification, setNotification] = useState("")
+    const [notification, setNotification] = useState(props.notification)
     const [isAdd,setIsAdd]=useState(false)
     const user=useContext(Context)
-
+  
+    
 function matchedMovies(movies=[], userMovies=[]) {
     const mergedMovies = [...movies]
     for (let j = 0; j < userMovies.length; j++){
         for (let i = 0; i < mergedMovies.length; i++){
             if (mergedMovies[i].id === userMovies[j].movieId) {
                    mergedMovies[i]=userMovies[j]
-             console.log(mergedMovies[i]+"merged")
+     
               
             }
           
@@ -51,69 +50,58 @@ function matchedMovies(movies=[], userMovies=[]) {
 
 
 
-
-
 useEffect(async() => {
         setIsFetching(true)
-        try {
-         const res=await  setMovies()
-            if (res.statusText == "OK") {
-                setMoviesData(res.data)
-                setAllMovies(res.data)
+     
+    mainApi.getMovies()
+        .then(res => {
+            if (res) {
+                setSaveMovies(res)
+                setAllMovies(matchedMovies(allMovies,res))
                 setNotification("")
-         }  }
-        catch (e) {
-            setNotification('Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз.')
-        }
-        setIsFetching(false)
-}, [])
-
-
-useEffect(async() => {
-        setIsFetching(true)
-        try {
-          const res=await  getMovies()
+            }})
+        .catch(err => {
+           setNotification('Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз.')
+        })
            
-            if (res.statusText == "OK") {
-                setSaveMovies(res.data)
-               setAllMovies(matchedMovies(moviesData,res.data))
-                        setNotification("")
-                    }
-        }
-        catch (e) {
-             setNotification('Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз.')
-        }
+
+      
     setIsFetching(false)
     
 },[])
     
+    
+
    
     
 const toggleMovieSave = (movie) => {
         if (saveMovies.findIndex(item=>item.movieId===movie.id||movie.movieId||movie._id)==-1) {
             setIsFetching(true)
-            try {
-                saveMovie(movie)
+    
+                mainApi.saveMovie(movie)
                     .then(response => {
-                        if (response.status == 201) {
-                            getMovies()
+                        console.log(response)
+                            mainApi.getMovies()
                                 .then(res => {
-                                    if (res.statusText == "OK") {
-                                        setSaveMovies(res.data)
-                                        setAllMovies(matchedMovies(moviesData,res.data))
+                                    if (res) {
+                                        setSaveMovies(res)
+                                        setAllMovies(matchedMovies(moviesData,res))
                                         setIsAdd(true)
-                                    }
+                                        setNotification("")
+                                    } 
+
+                                    
                                 })
 
                     
-                            setNotification("")
+                   
                 
                         }
-                    })
-            }
-            catch (e) {
-                // setNotification('Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз.')
-            }
+            )
+        .catch(err => {
+       setNotification('Не удалось сохранить фильм. Попробуйте обновить страницу и повторить попытку.')
+        })
+ 
             setIsFetching(false)
         }
     }
@@ -135,52 +123,41 @@ const removeId = (allMovies = [], id) => {
  const removeMovie = async (id) => {
 
    
-    setIsFetching(true)
-    try {
-        let res = await deleteMovies(id)
-       
-        if (res.status == 200) {
-           removeId(allMovies,id)
-                     getMovies()
-                                .then(res => {
-                                    if (res.statusText == "OK") {
-                                        setSaveMovies(res.data)
-                                        setAllMovies(matchedMovies(moviesData,res.data))
-                                        setIsAdd(true)
-                                    }
-                                })
-    
-        
-                reset(id)
-          }
- } catch(e) {
-  
-    }
-    
+ setIsFetching(true)
+mainApi.deleteMovies(id)
+ removeId(allMovies,id)
+     mainApi.getMovies()
+         .then(res => {
+             if (res) {
+             setSaveMovies(res)
+                setAllMovies(matchedMovies(moviesData,res))
+               setIsAdd(true)
+                reset(id)    
+             } 
+            
+            })
+           .catch((err) => {
+       setNotification('Не удалось удалить фильм. Попробуйте обновить страницу и повторить попытку.') 
+      });
+ 
    setIsFetching(false)
 }
 
-const reset = async (id) => {
+const reset = (id) => {
     
          setIsFetching(true)
-        try {
-           const res=await deleteMovies(id)
-                
-                    if (res.status == 200) {
-                        setSaveMovies(prev => prev.filter(item => item._id !== id))
-                        setNotification("")
-                    }
-        }
-        catch (e) {
-            //   setNotification('Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз.')
-        }
+
+    mainApi.deleteMovies(id)
+        .then(res => {
+        setSaveMovies(prev => prev.filter(item => item._id !== id))
+       setNotification("")
+        })
+      .catch((err) => {
+       setNotification('Не удалось удалить фильм. Попробуйте обновить страницу и повторить попытку.') 
+      });
         setIsFetching(false)
 }  
 
-//     const reset = (id) => {
-//                             setSaveMovies(prev => prev.filter(item => item._id !== id))
-//                         setNotification("")
-// }        
 
 
 
@@ -188,9 +165,13 @@ const reset = async (id) => {
 
 const searchData = (e) => {
     e.preventDefault()
-    setSearchValue(prev => prev = inputValue)
+    setSearchValue(inputValue)
     setCklicked(true)
-   
+    if (inputValue == "") {
+        setError("Нужно ввести ключевое слово")
+    } else {
+        setError("")
+    }
   }
     
 
@@ -222,12 +203,7 @@ const searchData = (e) => {
     
 const checkOnInputChange=(value)=> {
         setInputValue(value)
-        if (value.length==0) {
-            setError(prev=>prev="Нужно ввести ключевое слово")
-        }
-        else {
-             setError(prev=>prev="")
-        }
+
     }
     
 

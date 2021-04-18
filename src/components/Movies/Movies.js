@@ -1,27 +1,16 @@
-import React, { useContext, useEffect } from 'react';
-import {Context} from "../../context/Context"
+import React from 'react';
 import SearchForm from '../SearchForm/SearchForm';
-import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import './Movies.css';
-import { useHistory } from 'react-router';
-import { Redirect } from "react-router-dom"
-
-
-
-
-
-
-
-
 
 
 function Movies(props) {
 
-const {isAuth,setIsAuth}=useContext(Context)
-    const history = useHistory()
     return (
         <div className="movies">
-           <SearchForm />
+            <SearchForm
+                allMovies={props.allMovies}
+                moviesData={props.moviesData}
+                notification={props.notification}/>
         </div>
     );
 }

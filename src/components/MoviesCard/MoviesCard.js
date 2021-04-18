@@ -18,14 +18,14 @@ import likeIconUnLiked from '../../images/like-icon-unliked.svg';
 import deleteButtonIcon from '../../images/delete-icon.svg';
 import MovieItem from "../MovieItem/MovieItem"
 import {deleteMovies} from "../../utils/MainApi"
-
+import { apiUrl } from "../../configs/config"
 import './MoviesCard.css';
 import { getMovies, saveMovie } from '../../utils/MainApi';
 import { setMovies } from '../../utils/MoviesApi';
 import Preloader from '../Preloader/Preloader';
 import Modal from '../Modal/Modal';
 
-const apiUrl = 'https://api.nomoreparties.co';
+// const apiUrl = 'https://api.nomoreparties.co'
 
 
 
@@ -43,12 +43,13 @@ function MoviesCard(props) {
 
     return (
         <>
-            
+       
             <Switch>
 
 
 
-                    <Route path="/movies">
+                <Route path="/movies">
+   
               {((props.movie)?(props.movie):[]).slice(0,props.count).map(item =>
 
                        {
@@ -78,6 +79,10 @@ function MoviesCard(props) {
 
 
                 <Route path="/saved-movies">
+            
+                
+
+
               {((props.saveMovie)?(props.saveMovie):[]).slice(0,props.count).map(item =>
 
                        {
@@ -92,7 +97,8 @@ function MoviesCard(props) {
                                reset={props.reset}
 
                            />
-                     })}
+              })}
+                  
                 </Route>
             </Switch>
        

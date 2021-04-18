@@ -4,6 +4,7 @@ import { Route, Switch, NavLink } from 'react-router-dom';
 import './Navigation.css';
 
 function Navigation(props) {
+ 
     const {isOpen, onClose} = props;
 
 function handleClickLayoutMenuClose(e) {

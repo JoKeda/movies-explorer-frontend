@@ -17,15 +17,16 @@ import { useHistory } from 'react-router'
 
 
 function SavedMovies(props) {
-    const { isAuth, setIsAuth } = useContext(Context)
-    const history = useHistory()
-      if (!props.isAuth) {
-        history.push("/")
-    }
+
+// const { isAuth, setIsAuth } = useContext(Context)
+// const history = useHistory()
+//       if (!props.isAuth) {
+//         history.push("/")
+//     }
  
     return (
         <div className="saved-movies">
-            <div>{isAuth}</div>
+          
             <SearchForm />
             <MoviesCardList />
         </div>
