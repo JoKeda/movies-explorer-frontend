@@ -1,0 +1,130 @@
+.portfolio {
+    display: flex;
+    flex-direction: column;
+    padding: 100px 70px 125px 70px;
+    background-color: #202020;
+}
+
+.portfolio__title {
+    margin: 0;
+    padding: 0 0 50px 0;
+    font-family: 'Inter', 'Arial', sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 20px;
+    color: #8B8B8B;
+}
+
+.portfolio__list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+}
+
+.portfolio__list li a p {
+    height: 50px;
+    width: 880px;
+}
+
+.portfolio__list-section {
+    margin: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-decoration: none;
+    margin-top: -8px;
+}
+
+.portfolio__list-section:hover {
+    opacity: 0.7;
+    transition: ease .3s;
+}
+
+.portfolio__list-work {
+    margin: 0;
+    font-family: 'Inter', 'Arial', sans-serif;
+    font-size: 30px;
+    font-weight: 400;
+    line-height: 50px;
+    color: #fff;
+    letter-spacing: -0.04em;
+}
+
+.portfolio__list-icon {
+    width: 17px;
+    height: 60px;
+    padding-right: 5px;
+    padding-top: 2px;
+}
+
+.portfolio__line {
+    margin: 15px 0 20px 0;
+    height: 1px;
+    background-color: #424242;
+}
+
+@media screen and (max-width: 1279px) {
+    .portfolio {
+        padding: 90px 50px 90px 50px;
+    }
+}
+
+@media screen and (max-width: 1279px) {
+    .portfolio__list-work {
+        font-size: 28px;
+    }
+}
+
+@media screen and (max-width: 1279px) {
+    .portfolio__list-icon {
+        width: 18px;
+    }
+}
+
+@media screen and (max-width: 1279px) {
+    .portfolio__line {
+        background-color: #DADADA;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .portfolio {
+        padding: 69px 14px 70px 14px;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .portfolio__title {
+        font-size: 14px;
+        line-height: 20px;
+        padding: 0 0 40px 0;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .portfolio__list-work {
+        font-size: 18px;
+        line-height: 40px;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .portfolio__list-icon {
+        width: 10px;
+        height: 10px;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .portfolio__line {
+        margin: 4px 0 20px 0;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .portfolio__list-icon {
+        margin-top: -12px;
+    }
+}
